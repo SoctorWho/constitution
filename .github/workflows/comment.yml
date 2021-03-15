@@ -1,4 +1,4 @@
-name: create comment with artifacts
+name: Create comment with artifacts
 on:
   repository_dispatch:
 jobs:
