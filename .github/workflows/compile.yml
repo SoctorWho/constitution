@@ -30,6 +30,13 @@ jobs:
         run: |
           echo ${{ github.event.client_payload.prnumber }}
           echo ${{ github.event.client_payload.checkrunid }}
+      - name: get check_suite_id
+        id: getsuiteid
+        run: |
+          URL="https://api.github.com/repos/${{ github.repository }}/actions/runs/${{github.run_id}}"
+          check_suite_id=$(curl -s -u admin:${{ secrets.GITHUB_TOKEN }} $URL | jq -r '.check_suite_url' | awk -F "/" '{print $NF}')
+          echo $check_suite_id
+          echo "::set-output name=suiteid::$check_suite_id"
       - name: get artifacts_id
         id: getartid
         run: |
