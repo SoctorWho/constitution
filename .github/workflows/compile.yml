@@ -34,7 +34,7 @@ jobs:
         id: getartid
         run: |
           URL="https://api.github.com/repos/${{ github.repository }}/actions/runs/${{github.run_id}}/artifacts"
-          artifacts_id=$(curl -s -u admin:${{ secrets.GITHUB_TOKEN }} $URL | jq '.artifacts[].id')
+          artifacts_id=$(curl -s $URL | jq '.artifacts[].id')
           echo $URL
           curl $url
           echo $artifacts_id
