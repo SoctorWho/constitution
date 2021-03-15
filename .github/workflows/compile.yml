@@ -1,6 +1,6 @@
 name: CI
 
-on: [ "push",  "pull_request"]
+on: [ "pull_request"]
 
 jobs:
   build:
@@ -50,6 +50,6 @@ jobs:
       - name: comment pr
         uses: peter-evans/create-or-update-comment@v1
         with:
-          issue-number: ${{ github.event.client_payload.prnumber }}
+          issue-number: ${{ github.event.pull_request.number }}
           body: |
             The artifacts url is https://github.com/${{ github.repository }}/suites/${{ steps.getsuiteid.outputs.suiteid }}/artifacts/${{ steps.getartid.outputs.artid }}
