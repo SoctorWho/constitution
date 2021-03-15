@@ -33,14 +33,14 @@ jobs:
       - name: get check_suite_id
         id: getsuiteid
         run: |
-          URL="https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.event.client_payload.checkrunid }}"
+          URL="https://api.github.com/repos/${{ github.repository }}/actions/runs/${{github.run_id}}"
           check_suite_id=$(curl -s -u admin:${{ secrets.GITHUB_TOKEN }} $URL | jq -r '.check_suite_url' | awk -F "/" '{print $NF}')
           echo $check_suite_id
           echo "::set-output name=suiteid::$check_suite_id"
       - name: get artifacts_id
         id: getartid
         run: |
-          URL="https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts"
+          URL="https://api.github.com/repos/${{ github.repository }}/actions/runs/${{github.run_id}}}/artifacts"
           artifacts_id=$(curl -s -u admin:${{ secrets.GITHUB_TOKEN }} $URL | jq '.artifacts[].id')
           echo $artifacts_id
           echo "::set-output name=artid::$artifacts_id"
