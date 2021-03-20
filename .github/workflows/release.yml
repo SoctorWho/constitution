@@ -1,0 +1,41 @@
+on:
+  release:
+    types: [created]
+
+jobs:
+  build:
+    name: Build release binary
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Get release
+        id: get_release
+        uses: bruceadams/get-release@v1.2.2
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+
+      - name: LaTeX compilation
+        uses: dante-ev/latex-action@v0.2.0
+        with:
+          # The root LaTeX file to be compiled
+          root_file: main.tex
+          # The working directory for the latex compiler to be invoked
+          # working_directory: # optional
+          # LaTeX engine to be used
+          # compiler: # optional, default is latexmk
+          # Extra arguments to be passed to the latex compiler
+          # args: # optional, default is -pdf -latexoption=-file-line-error -latexoption=-interaction=nonstopmode
+          # Install extra packages by apt-get
+          # extra_system_packages: # optional 
+
+      - name: Upload release binary
+        uses: actions/upload-release-asset@v1.0.2
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          upload_url: ${{ steps.get_release.outputs.upload_url }}
+          asset_path: ./main.pdf
+          asset_name: constitution.pdf
+          asset_content_type: application/pdf
